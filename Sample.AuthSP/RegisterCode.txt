@@ -1,0 +1,61 @@
+The app identifier has been successfully created.
+App Id:  	e819874a-fe2e-4b66-9d75-5f89461805e1
+App Secret:  	/Vt1FI33gmlknyBDasZs0EjxBsFvFBAJdEa/79VSnHI=
+Title:  	Read From SP
+App Domain:  	testspauth.dw.com
+Redirect URI:  	https://testspauth.dw.com:4455
+
+
+
+
+The app identifier has been successfully created.
+Client Id:  	fd771ea8-b222-45b3-b1e6-ca065851ea16
+Client Secret:  	xpT0FnSQ68AKj3TPUf+VNsNjXvFsu8BAaNVXkp1D0Ks=
+Title:  	Read From SP
+App Domain:  	testspauth.dw.com
+Redirect URI:  	https://testspauth.dw.com:4455
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
