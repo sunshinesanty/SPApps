@@ -19,8 +19,8 @@ namespace Sample.AuthSPWeb.Controllers
         {
             ListDataCollection coll = new ListDataCollection();
 
-            //coll = GetClientContextData(coll);
-            coll = GetAppOnlyContextData(coll);
+            coll = GetClientContextData(coll);
+            //coll = GetAppOnlyContextData(coll);
             return View(coll);
 
 
@@ -73,7 +73,7 @@ namespace Sample.AuthSPWeb.Controllers
                 if (!string.IsNullOrEmpty(authcode))
                     TokenCache.UpdateCacheWithCode(this.Request, this.Response, sharePointSiteUrl);
                 if (!TokenCache.IsTokenInCache(this.Request.Cookies))
-                    this.Response.Redirect(TokenHelper.GetAuthorizationUrl(sharePointSiteUrl.ToString(), "Web.Write", ConfigurationManager.AppSettings.Get("RedirectUrl")));
+                    this.Response.Redirect(TokenHelper.GetAuthorizationUrl(sharePointSiteUrl.ToString(), "Web.Read", ConfigurationManager.AppSettings.Get("RedirectUrl")));
             }
             catch (ThreadAbortException)
             {
@@ -95,7 +95,7 @@ namespace Sample.AuthSPWeb.Controllers
 
                 string accessToken = TokenHelper.GetAccessToken(
                        refreshToken,
-                       "00000003-0000-0ff1-ce00-000000000000",
+                       TokenHelper.SharePointPrincipal,
                        sharePointSiteUrl.Authority,
                        TokenHelper.GetRealmFromTargetUrl(sharePointSiteUrl)).AccessToken;
 
