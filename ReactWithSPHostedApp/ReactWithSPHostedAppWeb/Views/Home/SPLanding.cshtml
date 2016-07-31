@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="list-group">
+    <script type="text/javascript">
+        var cacheStorage = [];
+    </script>
+    @foreach (var qrValue in this.Request.QueryString.AllKeys)
+    {
+        <script type="text/javascript">
+            (function () {
+                cacheStorage.push({ qKey: "@qrValue", qVal: "@this.Request.QueryString[qrValue]" });
+            })();
+        </script>
+    }
+    @foreach (var qrValue in this.Request.Form.AllKeys)
+            {
+        <script type="text/javascript">
+            (function () {
+                cacheStorage.push({ qKey: "@qrValue", qVal: "@this.Request.Form[qrValue]" });
+            })();
+        </script>
+    }
+    <script type="text/javascript">
+        for (var i = 0; i < cacheStorage.length; i++) {
+            sessionStorage.setItem(cacheStorage[i].qKey, cacheStorage[i].qVal);
+        }
+        console.log(sessionStorage);
+        location.href = "/content/index.html";
+    </script>
+</div>
