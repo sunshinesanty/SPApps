@@ -3,7 +3,8 @@
   "compilerOptions": {
     "target": "es5",
     "sourceMap": false,
-    "jsx": "react"
+    "jsx": "react",
+    "outDir": "./tsOut"
   },
   "exclude": [ "node_modules", "css", "typings/globals/sharepoint" ]
 }

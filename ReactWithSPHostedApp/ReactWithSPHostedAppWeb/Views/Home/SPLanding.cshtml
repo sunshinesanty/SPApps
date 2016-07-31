@@ -1,5 +1,21 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    try
+    {
+        if (string.IsNullOrEmpty(this.Request.QueryString.Get("SPHostUrl")) ||
+                    string.IsNullOrEmpty(this.Request.QueryString.Get("SPAppWebUrl")) ||
+                    string.IsNullOrEmpty(this.Request.Form.Get("SPSiteTitle")))
+        {
+            var SPredirectUrl = string.Format("{0}{1}{2}",
+                                        System.Configuration.ConfigurationManager.AppSettings.Get("SPPortalUrl"),
+                                        System.Configuration.ConfigurationManager.AppSettings.Get("SPAppRedirectUrl"),
+                                        System.Configuration.ConfigurationManager.AppSettings.Get("AppInstaceID"));
+            Response.Redirect(SPredirectUrl);
+        }
+    }
+    catch (System.Threading.ThreadAbortException tex) {
+
+    }
 }
 
 

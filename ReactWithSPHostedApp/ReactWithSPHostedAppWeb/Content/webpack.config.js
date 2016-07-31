@@ -7,7 +7,7 @@ module.exports = {
     // Enable sourcemaps for debugging webpack's output.
     module: {
         loaders: [
-            { test: /\.tsx?$/, loaders: ['babel-loader', 'ts-loader'] },
+            { test: /\.tsx?$/, exclude:"./tsOut", loaders: ['babel-loader', 'ts-loader'] },
             { test: /\.ico$/, loader: 'file?name=[name].[ext]' },
         ],
         postLoaders: [
@@ -21,7 +21,7 @@ module.exports = {
         new webpack.NoErrorsPlugin()
     ],
     resolve: {
-        extensions: ['', '.tsx', '.ts']
+        extensions: ['','.jsx', 'js', '.tsx', '.ts']
     },
     externals: {
         "react": "React",

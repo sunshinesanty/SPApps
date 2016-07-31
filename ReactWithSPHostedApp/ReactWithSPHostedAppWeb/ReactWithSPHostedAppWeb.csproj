@@ -194,6 +194,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\reducers\" />
+    <Folder Include="Content\tsOut\" />
     <Folder Include="Content\views\" />
     <Folder Include="Models\" />
   </ItemGroup>
