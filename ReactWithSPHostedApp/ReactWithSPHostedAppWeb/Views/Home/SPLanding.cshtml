@@ -1,0 +1,49 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    try
+    {
+        if (string.IsNullOrEmpty(this.Request.QueryString.Get("SPHostUrl")) ||
+                    string.IsNullOrEmpty(this.Request.QueryString.Get("SPAppWebUrl")) ||
+                    string.IsNullOrEmpty(this.Request.Form.Get("SPSiteTitle")))
+        {
+            var SPredirectUrl = string.Format("{0}{1}{2}",
+                                        System.Configuration.ConfigurationManager.AppSettings.Get("SPPortalUrl"),
+                                        System.Configuration.ConfigurationManager.AppSettings.Get("SPAppRedirectUrl"),
+                                        System.Configuration.ConfigurationManager.AppSettings.Get("AppInstaceID"));
+            Response.Redirect(SPredirectUrl);
+        }
+    }
+    catch (System.Threading.ThreadAbortException tex) {
+
+    }
+}
+
+
+<div class="list-group">
+    <script type="text/javascript">
+        var cacheStorage = [];
+    </script>
+    @foreach (var qrValue in this.Request.QueryString.AllKeys)
+    {
+        <script type="text/javascript">
+            (function () {
+                cacheStorage.push({ qKey: "@qrValue", qVal: "@this.Request.QueryString[qrValue]" });
+            })();
+        </script>
+    }
+    @foreach (var qrValue in this.Request.Form.AllKeys)
+            {
+        <script type="text/javascript">
+            (function () {
+                cacheStorage.push({ qKey: "@qrValue", qVal: "@this.Request.Form[qrValue]" });
+            })();
+        </script>
+    }
+    <script type="text/javascript">
+        for (var i = 0; i < cacheStorage.length; i++) {
+            sessionStorage.setItem(cacheStorage[i].qKey, cacheStorage[i].qVal);
+        }
+        console.log(sessionStorage);
+        location.href = "/content/index.html";
+    </script>
+</div>

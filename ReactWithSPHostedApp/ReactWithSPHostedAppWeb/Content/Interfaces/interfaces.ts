@@ -1,0 +1,1 @@
+﻿export interface SPWebProps { Title: string; Url: string; }
