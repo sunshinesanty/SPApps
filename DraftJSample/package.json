@@ -1,0 +1,35 @@
+{
+  "name": "draftjsample",
+  "version": "1.0.0",
+  "description": "testing out draft JS",
+  "main": "./dist/editor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"./node_modules/.bin/webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunshinesanty/SPApps.git"
+  },
+  "keywords": [
+    "DraftJS"
+  ],
+  "author": "Santoshkumar Krishnamurthy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunshinesanty/SPApps/issues"
+  },
+  "homepage": "https://github.com/sunshinesanty/SPApps#readme",
+  "dependencies": {
+    "draft-js": "^0.8.1",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1"
+  },
+  "devDependencies": {
+    "source-map-loader": "^0.1.5",
+    "ts-loader": "^0.8.2",
+    "typescript": "^1.8.10",
+    "typings": "^1.3.3",
+    "webpack": "^1.13.2"
+  }
+}
