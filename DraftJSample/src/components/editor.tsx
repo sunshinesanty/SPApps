@@ -1,7 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import {Editor, EditorState, RichUtils} from 'draft-js';
+import {Editor, EditorState, RichUtils, convertFromRaw, convertToRaw} from 'draft-js';
 import {IEditorState } from '../interfaces/IEditorInterfaces';
+import { EditorStyles } from './editorStyles';
+import { CommonHelperFunction } from './commonHelper';
 
 export class CustomizableEditor extends React.Component<{}, {}> {
   public state: IEditorState;
@@ -17,21 +19,36 @@ export class CustomizableEditor extends React.Component<{}, {}> {
     console.log(this.state.editorState.toJS());
   }
   handleKeyCommand = (command: string) => {
+    console.log(convertToRaw(this.state.editorState.getCurrentContent()));
     const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
+    console.log(convertToRaw(newState.getCurrentContent()))
     if (newState) {
       this.onChange(newState);
       return true;
     }
     return false;
   }
-  onBoldClick = () => {
-    const newState = RichUtils.handleKeyCommand(this.state.editorState, 'bold');
+  onBoldClick = (e: React.FormEvent) => {
+    e.preventDefault();
+    const {editorState} = this.state;
+    console.log(convertToRaw(editorState.getCurrentContent()));
+    const newState = RichUtils.toggleInlineStyle(editorState, 'UNDERLINE');
+    console.log(convertToRaw(newState.getCurrentContent()))
     this.onChange(newState);
+  }
+  enableMutableEntity = (e: React.FormEvent) => {
+    e.preventDefault();
+    const {editorState} = this.state;
+    const currentContent = convertToRaw(editorState.getCurrentContent());
+    currentContent.blocks[0].entityRanges.
+    //EditorState.forceSelection(editorState, new Selection().addRange(new Range().setStart))
   }
   render() {
     const {editorState} = this.state;
-    return <div style={this.EditorStyles.root}>
-      <div style={this.EditorStyles.editor} onClick={this.onFocus}>
+    return <div style={EditorStyles.EditorContainerStyle.root}>
+      <div style={EditorStyles.EditorContainerStyle.editor} onClick={this.onFocus}>
+        <button onClick={this.onBoldClick}>U</button>
+        <button>Mutable Entity for first 2 chars</button>
         <Editor
           editorState={editorState}
           onChange={this.onChange}
@@ -42,22 +59,4 @@ export class CustomizableEditor extends React.Component<{}, {}> {
       <input type="button" onClick={this.onLogState} value="Log State" />
     </div>;
   }
-
-  public EditorStyles = {
-    root: {
-      fontFamily: '\'Helvetica\', sans-serif',
-      padding: 20,
-      width: 600,
-    },
-    editor: {
-      border: '1px solid #ccc',
-      cursor: 'text',
-      minHeight: 80,
-      padding: 10,
-    },
-    button: {
-      marginTop: 10,
-      textAlign: 'center',
-    },
-  };
 }

@@ -5,7 +5,7 @@ import {ControlledInput} from './components/controledInput'
 
 ReactDOM.render(
   <div>
-    <h3>Draft JS Editor</h3>
+    <h3>Draft JS Editor sample</h3>
     <CustomizableEditor />
   </div>,
   document.getElementById('editorApp')
