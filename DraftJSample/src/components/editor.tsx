@@ -25,18 +25,18 @@ export class CustomizableEditor extends React.Component<{}, {}> {
     return false;
   }
   onBoldClick = () => {
-    const newState = RichUtils.handleKeyCommand(this.state.editorState, 'bold');
-    this.onChange(newState);
+    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
   render() {
     const {editorState} = this.state;
     return <div style={this.EditorStyles.root}>
       <div style={this.EditorStyles.editor} onClick={this.onFocus}>
+      <button onClick={this.onBoldClick}>B</button>
         <Editor
           editorState={editorState}
           onChange={this.onChange}
           handleKeyCommand={this.handleKeyCommand}
-          placeholder="Enter your text here..."
+          placeholder="What's on your mind..."
           ref="editor" />
       </div>
       <input type="button" onClick={this.onLogState} value="Log State" />

@@ -9,8 +9,10 @@ export class ControlledInput extends React.Component<{}, {}>
         super(props);
         this.state = { value: '' };
     }
-    onChange = (e: React.FormEvent) => { this.setState({ value: e.target.value }); console.log(this.state); }
+    onChange = (e: React.FormEvent) => { this.setState({ value: "your input:" + e.target.value }); console.log(this.state); }
     render() {
-        return <input type="text" value={this.state.value} onChange={this.onChange} />
+        return <div>
+        <input type="text" value={this.state.value} onChange={this.onChange} />
+        </div>
     }
 }

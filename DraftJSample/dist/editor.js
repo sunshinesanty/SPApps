@@ -96,8 +96,7 @@
 	            return false;
 	        };
 	        this.onBoldClick = function () {
-	            var newState = draft_js_1.RichUtils.handleKeyCommand(_this.state.editorState, 'bold');
-	            _this.onChange(newState);
+	            _this.onChange(draft_js_1.RichUtils.toggleInlineStyle(_this.state.editorState, 'BOLD'));
 	        };
 	        this.EditorStyles = {
 	            root: {
@@ -120,7 +119,7 @@
 	    }
 	    CustomizableEditor.prototype.render = function () {
 	        var editorState = this.state.editorState;
-	        return React.createElement("div", {style: this.EditorStyles.root}, React.createElement("div", {style: this.EditorStyles.editor, onClick: this.onFocus}, React.createElement(draft_js_1.Editor, {editorState: editorState, onChange: this.onChange, handleKeyCommand: this.handleKeyCommand, placeholder: "Enter your text here...", ref: "editor"})), React.createElement("input", {type: "button", onClick: this.onLogState, value: "Log State"}));
+	        return React.createElement("div", {style: this.EditorStyles.root}, React.createElement("div", {style: this.EditorStyles.editor, onClick: this.onFocus}, React.createElement("button", {onClick: this.onBoldClick}, "B"), React.createElement(draft_js_1.Editor, {editorState: editorState, onChange: this.onChange, handleKeyCommand: this.handleKeyCommand, placeholder: "What's on your mind...", ref: "editor"})), React.createElement("input", {type: "button", onClick: this.onLogState, value: "Log State"}));
 	    };
 	    return CustomizableEditor;
 	}(React.Component));
