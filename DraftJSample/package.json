@@ -5,12 +5,8 @@
   "main": "./dist/editor.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "build":"./node_modules/.bin/webpack --progress --colors --watch"
-=======
     "dev": "./node_modules/.bin/webpack-dev-server --progress --color --inline",
     "build": "./node_modules/.bin/webpack --progress --color --watch"
->>>>>>> ead2838bcaf036cf68f640f393628b143ee9d680
   },
   "repository": {
     "type": "git",

@@ -8,3 +8,13 @@ export interface IEditorState {
 export interface ICtrlInpState {
     value:string;
 }
+
+export interface ILinkProps {
+    setEditorState: (editorState: EditorState) => void;  
+    editorState: EditorState;  
+} 
+
+export interface ILinkState {
+    urlValue: string;    
+    showURLInput: boolean;
+} 

@@ -48,7 +48,8 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(2);
 	var editor_1 = __webpack_require__(3);
-	ReactDOM.render(React.createElement("div", null, React.createElement("h3", null, "Draft JS Editor"), React.createElement(editor_1.CustomizableEditor, null)), document.getElementById('editorApp'));
+	var superBasicEditor_1 = __webpack_require__(146);
+	ReactDOM.render(React.createElement("div", null, React.createElement("h3", null, "Draft JS Editor sample"), React.createElement(editor_1.CustomizableEditor, null), React.createElement("h3", null, "Draft JS Super basic sample"), React.createElement(superBasicEditor_1.SuperSimpleEditor, null)), document.getElementById('editorApp'));
 
 
 /***/ },
@@ -75,6 +76,8 @@
 	};
 	var React = __webpack_require__(1);
 	var draft_js_1 = __webpack_require__(4);
+	var addLink_1 = __webpack_require__(144);
+	var editorStyles_1 = __webpack_require__(145);
 	var CustomizableEditor = (function (_super) {
 	    __extends(CustomizableEditor, _super);
 	    function CustomizableEditor(props) {
@@ -88,38 +91,31 @@
 	            console.log(_this.state.editorState.toJS());
 	        };
 	        this.handleKeyCommand = function (command) {
+	            console.log(draft_js_1.convertToRaw(_this.state.editorState.getCurrentContent()));
 	            var newState = draft_js_1.RichUtils.handleKeyCommand(_this.state.editorState, command);
 	            if (newState) {
+	                console.log(draft_js_1.convertToRaw(newState.getCurrentContent()));
 	                _this.onChange(newState);
 	                return true;
 	            }
 	            return false;
 	        };
-	        this.onBoldClick = function () {
+	        this.setEditorState = function (editorState) {
+	            _this.onChange(editorState);
+	        };
+	        this.onBoldClick = function (e) {
 	            _this.onChange(draft_js_1.RichUtils.toggleInlineStyle(_this.state.editorState, 'BOLD'));
 	        };
-	        this.EditorStyles = {
-	            root: {
-	                fontFamily: '\'Helvetica\', sans-serif',
-	                padding: 20,
-	                width: 600,
-	            },
-	            editor: {
-	                border: '1px solid #ccc',
-	                cursor: 'text',
-	                minHeight: 80,
-	                padding: 10,
-	            },
-	            button: {
-	                marginTop: 10,
-	                textAlign: 'center',
-	            },
+	        this.enableMutableEntity = function (e) {
+	            e.preventDefault();
+	            var editorState = _this.state.editorState;
+	            var currentContent = draft_js_1.convertToRaw(editorState.getCurrentContent());
 	        };
 	        this.state = { editorState: draft_js_1.EditorState.createEmpty() };
 	    }
 	    CustomizableEditor.prototype.render = function () {
 	        var editorState = this.state.editorState;
-	        return React.createElement("div", {style: this.EditorStyles.root}, React.createElement("div", {style: this.EditorStyles.editor, onClick: this.onFocus}, React.createElement("button", {onClick: this.onBoldClick}, "B"), React.createElement(draft_js_1.Editor, {editorState: editorState, onChange: this.onChange, handleKeyCommand: this.handleKeyCommand, placeholder: "What's on your mind...", ref: "editor"})), React.createElement("input", {type: "button", onClick: this.onLogState, value: "Log State"}));
+	        return React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.root}, React.createElement("button", {onClick: this.onBoldClick}, "B"), React.createElement(addLink_1.EditorLink, {setEditorState: this.setEditorState, editorState: this.state.editorState}), React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.editor, onClick: this.onFocus}, React.createElement(draft_js_1.Editor, {editorState: editorState, onChange: this.onChange, handleKeyCommand: this.handleKeyCommand, placeholder: "What's on your mind...", ref: "editor"})), React.createElement("input", {type: "button", onClick: this.onLogState, value: "Log State"}));
 	    };
 	    return CustomizableEditor;
 	}(React.Component));
@@ -18273,6 +18269,218 @@
 	}
 	
 	module.exports = getRangeBoundingClientRect;
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var draft_js_1 = __webpack_require__(4);
+	var editorStyles_1 = __webpack_require__(145);
+	var EditorLink = (function (_super) {
+	    __extends(EditorLink, _super);
+	    function EditorLink(props) {
+	        var _this = this;
+	        _super.call(this, props);
+	        this.promptForLink = function (e) {
+	            e.preventDefault();
+	            var editorState = _this.props.editorState;
+	            var selection = editorState.getSelection();
+	            if (!selection.isCollapsed()) {
+	                _this.setState({
+	                    showURLInput: true,
+	                    urlValue: '',
+	                }, function () {
+	                    setTimeout(function () { return _this.refs["url"].focus(); }, 0);
+	                });
+	            }
+	        };
+	        this.onURLChange = function (e) {
+	            var _a = _this.state, urlValue = _a.urlValue, showURLInput = _a.showURLInput;
+	            urlValue = e.target.value;
+	            _this.setState({ urlValue: urlValue, showURLInput: showURLInput });
+	        };
+	        this.confirmLink = function (e) {
+	            e.preventDefault();
+	            var editorState = _this.props.editorState;
+	            var _a = _this.state, urlValue = _a.urlValue, showURLInput = _a.showURLInput;
+	            urlValue = _this.refs["url"].value;
+	            showURLInput = false;
+	            var entityKey = draft_js_1.Entity.create('LINK', 'MUTABLE', { url: urlValue });
+	            editorState = draft_js_1.RichUtils.toggleLink(editorState, editorState.getSelection(), entityKey);
+	            _this.props.setEditorState(editorState);
+	            _this.setState({ urlValue: urlValue, showURLInput: showURLInput });
+	        };
+	        this.onLinkInputKeyDown = function (e) {
+	            if (e.which === 13) {
+	                _this.confirmLink(e);
+	            }
+	        };
+	        this.removeLink = function (e) {
+	            e.preventDefault();
+	            var editorState = _this.props.editorState;
+	            var selection = editorState.getSelection();
+	            if (!selection.isCollapsed()) {
+	                editorState = draft_js_1.RichUtils.toggleLink(editorState, selection, null);
+	                _this.props.setEditorState(editorState);
+	            }
+	        };
+	        this.state = { urlValue: "", showURLInput: false };
+	    }
+	    EditorLink.prototype.render = function () {
+	        var urlInput;
+	        if (this.state.showURLInput) {
+	            urlInput =
+	                React.createElement("div", {style: editorStyles_1.EditorStyles.EditorLinkstyles.urlInputContainer}, React.createElement("input", {onChange: this.onURLChange, ref: "url", style: editorStyles_1.EditorStyles.EditorLinkstyles.urlInput, type: "text", value: this.state.urlValue, onKeyDown: this.onLinkInputKeyDown}), React.createElement("button", {onMouseDown: this.confirmLink}, "Confirm"));
+	        }
+	        return React.createElement("div", null, React.createElement("div", {style: editorStyles_1.EditorStyles.EditorLinkstyles.buttons}, React.createElement("button", {onMouseDown: this.promptForLink, style: { marginRight: 10 }}, "Add Link"), React.createElement("button", {onMouseDown: this.removeLink}, "Remove Link")), urlInput);
+	    };
+	    return EditorLink;
+	}(React.Component));
+	exports.EditorLink = EditorLink;
+
+
+/***/ },
+/* 145 */
+/***/ function(module, exports) {
+
+	"use strict";
+	exports.EditorStyles = {
+	    EditorLinkstyles: {
+	        root: {
+	            fontFamily: '\'Georgia\', serif',
+	            padding: 20,
+	            width: 600,
+	        },
+	        buttons: {
+	            marginBottom: 10,
+	        },
+	        urlInputContainer: {
+	            marginBottom: 10,
+	        },
+	        urlInput: {
+	            fontFamily: '\'Georgia\', serif',
+	            marginRight: 10,
+	            padding: 3,
+	        },
+	        editor: {
+	            border: '1px solid #ccc',
+	            cursor: 'text',
+	            minHeight: 80,
+	            padding: 10,
+	        },
+	        button: {
+	            marginTop: 10,
+	            textAlign: 'center',
+	        },
+	        link: {
+	            color: '#3b5998',
+	            textDecoration: 'underline',
+	        },
+	    },
+	    EntityStyle: {
+	        root: {
+	            fontFamily: '\'Helvetica\', sans-serif',
+	            padding: 20,
+	            width: 600,
+	        },
+	        editor: {
+	            border: '1px solid #ccc',
+	            cursor: 'text',
+	            minHeight: 80,
+	            padding: 10,
+	        },
+	        button: {
+	            marginTop: 10,
+	            textAlign: 'center',
+	        },
+	        immutable: {
+	            backgroundColor: 'rgba(0, 0, 0, 0.2)',
+	            padding: '2px 0',
+	        },
+	        mutable: {
+	            backgroundColor: 'rgba(204, 204, 255, 1.0)',
+	            padding: '2px 0',
+	        },
+	        segmented: {
+	            backgroundColor: 'rgba(248, 222, 126, 1.0)',
+	            padding: '2px 0',
+	        }
+	    },
+	    EditorContainerStyle: {
+	        root: {
+	            border: '1px solid #ccc',
+	            fontFamily: '\'Helvetica\', sans-serif',
+	            padding: 20,
+	            width: 600,
+	        },
+	        editor: {
+	            border: '1px solid #ccc',
+	            cursor: 'text',
+	            minHeight: 80,
+	            padding: 10,
+	        },
+	        button: {
+	            marginTop: 10,
+	            textAlign: 'center',
+	        },
+	    }
+	};
+
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var React = __webpack_require__(1);
+	var draft_js_1 = __webpack_require__(4);
+	var editorStyles_1 = __webpack_require__(145);
+	var SuperSimpleEditor = (function (_super) {
+	    __extends(SuperSimpleEditor, _super);
+	    function SuperSimpleEditor(props) {
+	        var _this = this;
+	        _super.call(this, props);
+	        this.onChange = function (sseState) {
+	            _this.setState({ editorState: sseState });
+	        };
+	        this.onHandleKeyCommand = function (command) {
+	            var newState = draft_js_1.RichUtils.handleKeyCommand(_this.state.editorState, command);
+	            if (newState) {
+	                _this.onChange(newState);
+	                return true;
+	            }
+	            return false;
+	        };
+	        this.onBold = function () {
+	            _this.onChange(draft_js_1.RichUtils.toggleInlineStyle(_this.state.editorState, 'BOLD'));
+	        };
+	        this.onFocus = function () {
+	            _this.refs["sseEditor"].focus();
+	        };
+	        this.onLogState = function () {
+	            console.log(_this.state.editorState.toJS());
+	        };
+	        this.state = { editorState: draft_js_1.EditorState.createEmpty() };
+	    }
+	    SuperSimpleEditor.prototype.render = function () {
+	        return React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.root}, React.createElement("button", {onClick: this.onBold}, "B"), React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.editor, onClick: this.onFocus}, React.createElement(draft_js_1.Editor, {placeholder: "What's On your mind...", editorState: this.state.editorState, onChange: this.onChange, handleKeyCommand: this.onHandleKeyCommand, ref: "sseEditor"})), React.createElement("input", {type: "button", onClick: this.onLogState, value: "Log State"}));
+	    };
+	    return SuperSimpleEditor;
+	}(React.Component));
+	exports.SuperSimpleEditor = SuperSimpleEditor;
+
 
 /***/ }
 /******/ ]);
