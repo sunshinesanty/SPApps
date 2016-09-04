@@ -7,13 +7,10 @@ import { ILinkProps, ILinkState } from '../interfaces/IEditorInterfaces';
 export class EditorLink extends React.Component<ILinkProps, ILinkState>{
     constructor(props: ILinkProps) {
         super(props);
-        this.state = { urlValue: "", showURLInput: false };
     }
     promptForLink = (e: React.FormEvent) => {
         e.preventDefault();
-        const {editorState} = this.props;
-        const selection = editorState.getSelection();
-        if (!selection.isCollapsed()) {
+        if (this.props.IsSelectionActive()) {
             this.setState({
                 showURLInput: true,
                 urlValue: '',
@@ -29,14 +26,11 @@ export class EditorLink extends React.Component<ILinkProps, ILinkState>{
     }
     confirmLink = (e: KeyboardEvent) => {
         e.preventDefault();
-        let {editorState} = this.props;
         let {urlValue, showURLInput} = this.state;
         urlValue = (this.refs["url"] as HTMLInputElement).value;
-        showURLInput = false;
-        const entityKey = Entity.create('LINK', 'MUTABLE', { url: urlValue });
-        editorState = RichUtils.toggleLink(editorState, editorState.getSelection(), entityKey);
-        this.props.setEditorState(editorState);
+        showURLInput = false;                
         this.setState({ urlValue, showURLInput });
+        this.props.SetLink(urlValue, showURLInput);
     }
     onLinkInputKeyDown = (e: KeyboardEvent) => {
         if (e.which === 13) {
@@ -45,12 +39,7 @@ export class EditorLink extends React.Component<ILinkProps, ILinkState>{
     }
     removeLink = (e: React.FormEvent) => {
         e.preventDefault();
-        let {editorState} = this.props;
-        const selection = editorState.getSelection();
-        if (!selection.isCollapsed()) {
-            editorState = RichUtils.toggleLink(editorState, selection, null);
-            this.props.setEditorState(editorState);
-        }
+        this.props.RemoveLink();
     }
     render() {
         let urlInput: any;

@@ -34,19 +34,32 @@ export class CustomizableEditor extends React.Component<any, IEditorState> {
   onBoldClick = (e: React.FormEvent) => {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   }
-  enableMutableEntity = (e: React.FormEvent) => {
-    e.preventDefault();
+  SetLink = (urlValue: string) => {
+    let {editorState} = this.state;
+    const entityKey = Entity.create('LINK', 'MUTABLE', { url: urlValue });
+    this.onChange(RichUtils.toggleLink(editorState, editorState.getSelection(), entityKey));
+  }
+  removeLink = () => {
+    let {editorState} = this.state;
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      this.onChange(RichUtils.toggleLink(editorState, selection, null));
+    }
+  }
+  isSelectionActive = (): boolean => {
     const {editorState} = this.state;
-    const currentContent = convertToRaw(editorState.getCurrentContent());
-    //currentContent.blocks[0].entityRanges.
-    //EditorState.forceSelection(editorState, new Selection().addRange(new Range().setStart))
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      return true;
+    }
+    return false;
   }
   render() {
     const {editorState} = this.state;
 
     return <div style={EditorStyles.EditorContainerStyle.root}>
       <button onClick={this.onBoldClick}>B</button>
-      <EditorLink setEditorState={this.setEditorState} editorState={this.state.editorState}/>
+      <EditorLink SetEditorState={this.setEditorState} IsSelectionActive={this.isSelectionActive} SetLink={this.SetLink} RemoveLink={this.removeLink} />
       <div style={EditorStyles.EditorContainerStyle.editor} onClick={this.onFocus}>
         <Editor
           editorState={editorState}

@@ -111,11 +111,33 @@
 	            var editorState = _this.state.editorState;
 	            var currentContent = draft_js_1.convertToRaw(editorState.getCurrentContent());
 	        };
+	        this.SetLink = function (urlValue) {
+	            var editorState = _this.props.editorState;
+	            var entityKey = draft_js_1.Entity.create('LINK', 'MUTABLE', { url: urlValue });
+	            editorState = draft_js_1.RichUtils.toggleLink(editorState, editorState.getSelection(), entityKey);
+	            _this.onChange(editorState);
+	        };
+	        this.removeLink = function () {
+	            var editorState = _this.props.editorState;
+	            var selection = editorState.getSelection();
+	            if (!selection.isCollapsed()) {
+	                editorState = draft_js_1.RichUtils.toggleLink(editorState, selection, null);
+	                _this.onChange(editorState);
+	            }
+	        };
+	        this.isSelectionActive = function () {
+	            var editorState = _this.props.editorState;
+	            var selection = editorState.getSelection();
+	            if (!selection.isCollapsed()) {
+	                return true;
+	            }
+	            return false;
+	        };
 	        this.state = { editorState: draft_js_1.EditorState.createEmpty() };
 	    }
 	    CustomizableEditor.prototype.render = function () {
 	        var editorState = this.state.editorState;
-	        return React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.root}, React.createElement("button", {onClick: this.onBoldClick}, "B"), React.createElement(addLink_1.EditorLink, {setEditorState: this.setEditorState, editorState: this.state.editorState}), React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.editor, onClick: this.onFocus}, React.createElement(draft_js_1.Editor, {editorState: editorState, onChange: this.onChange, handleKeyCommand: this.handleKeyCommand, placeholder: "What's on your mind...", ref: "editor"})), React.createElement("input", {type: "button", onClick: this.onLogState, value: "Log State"}));
+	        return React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.root}, React.createElement("button", {onClick: this.onBoldClick}, "B"), React.createElement(addLink_1.EditorLink, {SetEditorState: this.setEditorState, IsSelectionActive: this.isSelectionActive, SetLink: this.SetLink, RemoveLink: this.removeLink}), React.createElement("div", {style: editorStyles_1.EditorStyles.EditorContainerStyle.editor, onClick: this.onFocus}, React.createElement(draft_js_1.Editor, {editorState: editorState, onChange: this.onChange, handleKeyCommand: this.handleKeyCommand, placeholder: "What's on your mind...", ref: "editor"})), React.createElement("input", {type: "button", onClick: this.onLogState, value: "Log State"}));
 	    };
 	    return CustomizableEditor;
 	}(React.Component));
@@ -18281,7 +18303,6 @@
 	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 	};
 	var React = __webpack_require__(1);
-	var draft_js_1 = __webpack_require__(4);
 	var editorStyles_1 = __webpack_require__(145);
 	var EditorLink = (function (_super) {
 	    __extends(EditorLink, _super);
@@ -18290,9 +18311,7 @@
 	        _super.call(this, props);
 	        this.promptForLink = function (e) {
 	            e.preventDefault();
-	            var editorState = _this.props.editorState;
-	            var selection = editorState.getSelection();
-	            if (!selection.isCollapsed()) {
+	            if (_this.props.IsSelectionActive()) {
 	                _this.setState({
 	                    showURLInput: true,
 	                    urlValue: '',
@@ -18308,14 +18327,11 @@
 	        };
 	        this.confirmLink = function (e) {
 	            e.preventDefault();
-	            var editorState = _this.props.editorState;
 	            var _a = _this.state, urlValue = _a.urlValue, showURLInput = _a.showURLInput;
 	            urlValue = _this.refs["url"].value;
 	            showURLInput = false;
-	            var entityKey = draft_js_1.Entity.create('LINK', 'MUTABLE', { url: urlValue });
-	            editorState = draft_js_1.RichUtils.toggleLink(editorState, editorState.getSelection(), entityKey);
-	            _this.props.setEditorState(editorState);
 	            _this.setState({ urlValue: urlValue, showURLInput: showURLInput });
+	            _this.props.SetLink(urlValue);
 	        };
 	        this.onLinkInputKeyDown = function (e) {
 	            if (e.which === 13) {
@@ -18324,12 +18340,7 @@
 	        };
 	        this.removeLink = function (e) {
 	            e.preventDefault();
-	            var editorState = _this.props.editorState;
-	            var selection = editorState.getSelection();
-	            if (!selection.isCollapsed()) {
-	                editorState = draft_js_1.RichUtils.toggleLink(editorState, selection, null);
-	                _this.props.setEditorState(editorState);
-	            }
+	            _this.props.RemoveLink();
 	        };
 	        this.state = { urlValue: "", showURLInput: false };
 	    }
