@@ -12,10 +12,8 @@ export interface ICtrlInpState {
 export interface ILinkProps {
     SetEditorState: (editorState: EditorState) => void; 
     IsSelectionActive: () => boolean;
-    SetLink: (urlValue:string, showUrlInput:boolean) => void; 
+    SetLink: (urlValue:string) => void; 
     RemoveLink: () => void;
-    urlValue: string;
-    showURLInput: boolean;
 } 
 
 export interface ILinkState {

@@ -7,6 +7,7 @@ import { ILinkProps, ILinkState } from '../interfaces/IEditorInterfaces';
 export class EditorLink extends React.Component<ILinkProps, ILinkState>{
     constructor(props: ILinkProps) {
         super(props);
+        this.state = { urlValue: '', showURLInput: false };
     }
     promptForLink = (e: React.FormEvent) => {
         e.preventDefault();
@@ -28,9 +29,9 @@ export class EditorLink extends React.Component<ILinkProps, ILinkState>{
         e.preventDefault();
         let {urlValue, showURLInput} = this.state;
         urlValue = (this.refs["url"] as HTMLInputElement).value;
-        showURLInput = false;                
+        showURLInput = false;
         this.setState({ urlValue, showURLInput });
-        this.props.SetLink(urlValue, showURLInput);
+        this.props.SetLink(urlValue);
     }
     onLinkInputKeyDown = (e: KeyboardEvent) => {
         if (e.which === 13) {

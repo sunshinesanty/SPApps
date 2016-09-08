@@ -106,27 +106,20 @@
 	        this.onBoldClick = function (e) {
 	            _this.onChange(draft_js_1.RichUtils.toggleInlineStyle(_this.state.editorState, 'BOLD'));
 	        };
-	        this.enableMutableEntity = function (e) {
-	            e.preventDefault();
-	            var editorState = _this.state.editorState;
-	            var currentContent = draft_js_1.convertToRaw(editorState.getCurrentContent());
-	        };
 	        this.SetLink = function (urlValue) {
-	            var editorState = _this.props.editorState;
+	            var editorState = _this.state.editorState;
 	            var entityKey = draft_js_1.Entity.create('LINK', 'MUTABLE', { url: urlValue });
-	            editorState = draft_js_1.RichUtils.toggleLink(editorState, editorState.getSelection(), entityKey);
-	            _this.onChange(editorState);
+	            _this.onChange(draft_js_1.RichUtils.toggleLink(editorState, editorState.getSelection(), entityKey));
 	        };
 	        this.removeLink = function () {
-	            var editorState = _this.props.editorState;
+	            var editorState = _this.state.editorState;
 	            var selection = editorState.getSelection();
 	            if (!selection.isCollapsed()) {
-	                editorState = draft_js_1.RichUtils.toggleLink(editorState, selection, null);
-	                _this.onChange(editorState);
+	                _this.onChange(draft_js_1.RichUtils.toggleLink(editorState, selection, null));
 	            }
 	        };
 	        this.isSelectionActive = function () {
-	            var editorState = _this.props.editorState;
+	            var editorState = _this.state.editorState;
 	            var selection = editorState.getSelection();
 	            if (!selection.isCollapsed()) {
 	                return true;
@@ -18342,7 +18335,7 @@
 	            e.preventDefault();
 	            _this.props.RemoveLink();
 	        };
-	        this.state = { urlValue: "", showURLInput: false };
+	        this.state = { urlValue: '', showURLInput: false };
 	    }
 	    EditorLink.prototype.render = function () {
 	        var urlInput;
