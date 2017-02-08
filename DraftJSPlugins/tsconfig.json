@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "jsx": "react",
+        "noLib": false,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "experimentalDecorators": true
+    },
+    "files": [
+        "src"
+    ],
+    "exclude": [
+     "nod_modules"   
+    ]
+}
