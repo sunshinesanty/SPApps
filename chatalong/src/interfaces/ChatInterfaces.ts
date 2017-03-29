@@ -1,10 +1,10 @@
 export interface IChatProps {
     chatsperpage: number;
-    lastmodifieddate: number;
+    lastmodifieddate: string;
 }
 export interface IUser{
     id: number;
-    name: text;
+    name: string;
 }
 export interface ILikesCollection {
     likes: ILike[];
@@ -32,8 +32,8 @@ export interface IComment {
 export interface IConversation{
     id: number;
     text: string;
-    comments: ICommentsCollection;
-    likes: ILikesCollection;
+    comments?: ICommentsCollection;
+    likes?: ILikesCollection;
     userid: number;
     created: string;
     modifed: string;

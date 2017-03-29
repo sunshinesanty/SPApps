@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './App.css';
+import Chat from './components/chat';
 
 const logo = require('./logo.svg');
 
@@ -11,9 +12,7 @@ class App extends React.Component<null, null> {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        <Chat chatsperpage={10} lastmodifieddate={(new Date()).toString()} />
       </div>
     );
   }
