@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/011656404fade24f845bea4d9e9257415ed306f4/service_worker_api/index.d.ts",
-    "raw": "registry:dt/service_worker_api#0.0.0+20170102221807",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/011656404fade24f845bea4d9e9257415ed306f4/service_worker_api/index.d.ts"
-  }
-}

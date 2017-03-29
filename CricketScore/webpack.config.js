@@ -3,13 +3,13 @@ var webpack = require('webpack');
 
 module.exports = {
   devtool: 'eval',
-  entry: [
-    'webpack-dev-server/client?http://localhost:3100',
-    './src/main'
-  ],
+  entry: {
+       main: './src/main',
+       swrk: './src/serviceworker/serviceworker'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     publicPath: '/static/'
   },
   resolve: {
