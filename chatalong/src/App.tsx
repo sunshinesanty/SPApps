@@ -5,6 +5,9 @@ import Chat from './components/chat';
 const logo = require('./logo.svg');
 
 class App extends React.Component<null, null> {
+  constructor(props: any) {
+    super(props);
+  } 
   render() {
     return (
       <div className="App">

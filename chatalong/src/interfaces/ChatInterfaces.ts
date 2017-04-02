@@ -2,41 +2,26 @@ export interface IChatProps {
     chatsperpage: number;
     lastmodifieddate: string;
 }
-export interface IUser{
-    id: number;
-    name: string;
-}
-export interface ILikesCollection {
-    likes: ILike[];
-    likecount: number;
-}
-export interface ICommentsCollection {
-    comments: IComment[];
-    commentcount: number;
-}
 export interface ILike {
-    id: number;
-    conversationID: number,
-    userid: number;
+    _id: string;
+    conversationID: string,
     created: string;
-    modifed: string;
+    modified: string;
 }
 export interface IComment {
+    _id: string;
     commentText: string;
-    id: number;
-    conversationID: number,
-    userid: number;
+    conversationID: string,
     created: string;
-    modifed: string;
+    modified: string;
 }
 export interface IConversation{
-    id: number;
+    _id: string;
+    comments?: IComment[];
+    likes?: ILike[];    
     text: string;
-    comments?: ICommentsCollection;
-    likes?: ILikesCollection;
-    userid: number;
     created: string;
-    modifed: string;
+    modified: string;
 }
 export interface IChatState {
     conversations: IConversation[];
