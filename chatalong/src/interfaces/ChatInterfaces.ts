@@ -41,3 +41,5 @@ export interface IConversation{
 export interface IChatState {
     conversations: IConversation[];
 }
+
+

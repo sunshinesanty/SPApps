@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/flux": "^3.0.1",
     "@types/jest": "^19.2.2",
     "@types/mongodb": "^2.1.41",
     "@types/node": "^7.0.12",
