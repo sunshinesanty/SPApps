@@ -1,33 +1,21 @@
 module.exports = {
-    entry: './main.jsx',
+    entry: {
+        bundle: './src/components/main.jsx'
+    },
     output: {
-        path: __dirname,
-        filename: 'bundle.js'
+        path: './dist',
+        filename: '[name].js'
     },
     module: {
         loaders: [
             {
                 test: /\.jsx?$/,
-                exclude: /node_modules/,
+                exclude: ['/node_modules/', '/server/'],
                 loaders: ['babel-loader?presets[]=react,presets[]=es2015'],
-            },
-            {
-                test: /\.json$/,
-                loader: "json-loader"
-            },
-            {
-                test: /\.node$/,
-                loader: "node-loader"
             }
         ]
     },
     resolve: {
-        extensions: ['', '.js', '.json', '.jsx', '.es6', '.babel', '.node']
-    },
-    node: {
-        fs: 'empty',
-        tls: 'empty',
-        net: 'empty',
-        module: 'empty'
+        extensions: ['', '.js', '.jsx']
     }
 }
