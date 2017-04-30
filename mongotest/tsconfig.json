@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "sourceMap": false,
+        "jsx": "react",
+        "noEmitOnError": true,
+        "outDir": "./server/",
+        "noImplicitAny": false,
+        "moduleResolution": "node"
+    },
+    "include": [
+        "./src/server/*.ts"
+    ],
+    "exclude": [
+        "/src/",
+        "/dist/"
+    ]
+}
