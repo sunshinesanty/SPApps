@@ -106,7 +106,7 @@ export const ToggleLike = (postID: number, userName: string): Promise<ILike[]> =
                                 id: commonUtils.generateID(),
                                 concersationID: pId,
                                 created: new Date().toISOString(),
-                                modifed: new Date().toISOString(),
+                                modified: new Date().toISOString(),
                                 username: uName
                             });
                         }
