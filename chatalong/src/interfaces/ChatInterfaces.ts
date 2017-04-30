@@ -1,43 +1,44 @@
-export interface IChatProps {
-    chatsperpage: number;
-    lastmodifieddate: string;
+// tslint:disable:interface-name
+
+export interface IChatFormState {
+    username: string;
+    content: string;
 }
-export interface IUser{
-    id: number;
-    name: string;
+
+export interface IChatFormProps {
+    username: string;
+    content: string;
+    isDisabled: boolean;
+    onSave: (ChatData: IChatFormState) => void;
 }
-export interface ILikesCollection {
+
+export interface ILikeRendererProps {
+    postID: number;
+    username: string;
     likes: ILike[];
-    likecount: number;
 }
-export interface ICommentsCollection {
-    comments: IComment[];
-    commentcount: number;
+export interface ILikeRendererState {
+    isLiked: boolean;
+    likeCount: number;
+}
+
+export interface IConversation {
+    id: number;
+    text: string;
+    username: string;
+    created: string;
+    modifed: string;
+    likes: ILike[];
 }
 export interface ILike {
     id: number;
-    conversationID: number,
-    userid: number;
+    concersationID: number;
+    username: string;
     created: string;
     modifed: string;
 }
-export interface IComment {
-    commentText: string;
-    id: number;
-    conversationID: number,
-    userid: number;
-    created: string;
-    modifed: string;
+
+class ChatChaceKeys {
+    get convs() { return 'convs'; }
 }
-export interface IConversation{
-    id: number;
-    text: string;
-    comments?: ICommentsCollection;
-    likes?: ILikesCollection;
-    userid: number;
-    created: string;
-    modifed: string;
-}
-export interface IChatState {
-    conversations: IConversation[];
-}
+export const ChaceKeys = new ChatChaceKeys();
