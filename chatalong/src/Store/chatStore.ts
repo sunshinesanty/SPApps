@@ -2,7 +2,7 @@ import chatPost from '../Store/conversations';
 import Like from '../Store/likes';
 import { observable } from 'mobx';
 
-class ChatStore {
+export class ChatStoreObject {
     chat: chatPost;
     likes: Like;
     @observable activeUserName: string = '';
@@ -12,4 +12,4 @@ class ChatStore {
     }
 }
 
-export default new ChatStore();
+export default new ChatStoreObject();

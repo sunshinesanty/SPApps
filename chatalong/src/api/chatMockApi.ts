@@ -78,6 +78,31 @@ export const GetPostLikesByID = (conversationID: number): Promise<ILike[]> => {
     });
 };
 
+export const LoadUsers = (): string[] => {
+    let users: string[] = DataCache.getItem('usernames');
+    if (!users) { users = ['Santy']; }
+    return users;
+};
+
+export const AddUser = (user: string): string[] => {
+    let users: string[] = DataCache.getItem('usernames');
+    if (users) {
+        users.push(user);
+        DataCache.setItem('usernames', users);
+    }
+    return users;
+};
+
+export const RemoveUser = (user: string): string[] => {
+    let users: string[] = DataCache.getItem('usernames');
+    if (users) {
+        const idx = users.findIndex(x => x === user);
+        users.splice(idx, 1);
+        DataCache.setItem('usernames', users);
+    }
+    return users;
+};
+
 export const ToggleLike = (postID: number, userName: string): Promise<ILike[]> => {
     return new Promise<ILike[]>((response, reject) => {
         setTimeout(

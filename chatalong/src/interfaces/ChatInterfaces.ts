@@ -1,18 +1,21 @@
 // tslint:disable:interface-name
-
+import { ChatStoreObject } from '../Store/chatStore';
 export interface IChatFormState {
     username: string;
     content: string;
 }
+export interface Iprops {
+    chatStore?: ChatStoreObject;
+}
 
-export interface IChatFormProps {
+export interface IChatFormProps extends Iprops {
     username: string;
     content: string;
     isDisabled: boolean;
     onSave: (ChatData: IChatFormState) => void;
 }
 
-export interface ILikeRendererProps {
+export interface ILikeRendererProps extends Iprops {
     postID: number;
     username: string;
     likes: ILike[];

@@ -35,7 +35,7 @@ export class ChatForm extends React.Component<IChatFormProps, IChatFormState> {
         return (
             <div className="container">
                 <div className="form-group row">
-                    <div className="col-12">
+                    <div className="col-12">                        
                         <input
                             type="text"
                             id="chatUserName"
