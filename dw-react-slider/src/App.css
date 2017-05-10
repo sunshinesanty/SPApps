@@ -1,0 +1,78 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  line-height: 20px;
+  font-size: 15px;
+}
+.slideshow {
+  font: inherit;
+}
+.slides {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.slide {
+  display: none;
+}
+.slide.slide--active {
+  display: block;
+}
+.controls {
+  font: inherit;
+}
+.toggle {
+  background: blue;
+  color: white;
+  display: block;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+}
+.toggle-prev {
+  left: 0;
+}
+.toggle--next {
+  right: 0;
+}
+.pagination {
+  margin: 20px;
+  text-align: center;
+}
+.pager {
+  background-color: red;
+  display: inline-block;
+  height: 20px;
+  margin: 10px;
+  overflow: hidden;
+  text-indent: -9000px;
+  white-space: nowrap;
+  width: 20px;
+}

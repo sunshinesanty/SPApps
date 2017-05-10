@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { IChatFormProps, IChatFormState } from '../interfaces/ChatInterfaces';
-import chatStore from '../Store/chatStore';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 
+@inject('chatStore')
 @observer
 export class ChatForm extends React.Component<IChatFormProps, IChatFormState> {
     contentControl: HTMLTextAreaElement;
@@ -18,7 +18,12 @@ export class ChatForm extends React.Component<IChatFormProps, IChatFormState> {
     onChange = (e: any) => {
         if (e.target.id.toLowerCase() === 'chatusername') {
             this.setState({ username: e.target.value });
-            chatStore.activeUserName = e.target.value;
+            const { chatStore } = this.props;
+            if (chatStore) {
+                chatStore.activeUserName = e.target.value;
+            } else {
+                throw new ReferenceError('Chat Store not being passed as Property');
+            }
         } else {
             this.setState({ content: e.target.value });
         }
@@ -26,7 +31,7 @@ export class ChatForm extends React.Component<IChatFormProps, IChatFormState> {
     onClick = (e: any) => {
         e.preventDefault();
         this.props.onSave(this.state);
-        this.setState({ content: '' });        
+        this.setState({ content: '' });
         if (this.contentControl) {
             this.contentControl.value = '';
         }

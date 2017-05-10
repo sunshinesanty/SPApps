@@ -2,12 +2,13 @@ import * as React from 'react';
 import './App.css';
 import { ChatRenderer } from './components/chatRenderer';
 import { ChatForm } from './components/chatForm';
-import ChatStore from './Store/chatStore';
 import { IChatFormState, IConversation } from './interfaces/ChatInterfaces';
-
+import { observer, inject } from 'mobx-react';
 const logo = require('./logo.svg');
 
-class App extends React.Component<null, {}> {
+@inject('chatStore')
+@observer
+class App extends React.Component<any, any> {
   onSave = ({ username, content }: IChatFormState): void => {
     const conv: IConversation = {
       username,
@@ -17,7 +18,9 @@ class App extends React.Component<null, {}> {
       created: new Date().toISOString(),
       modifed: new Date().toISOString()
     };
-    ChatStore.chat.saveConversation(conv);
+    if (this.props.chatStore) {
+      this.props.chatStore.chat.saveConversation(conv);
+    }
   }
   render() {
     return (
