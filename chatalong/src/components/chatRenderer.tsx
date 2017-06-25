@@ -2,30 +2,27 @@ import * as React from 'react';
 
 import { observer, inject } from 'mobx-react';
 
-import { IConversation, Iprops } from '../interfaces/ChatInterfaces';
+import { IConversation, IChatProps } from '../interfaces/ChatInterfaces';
 import LikeRenderer from './like';
 
 @inject('chatStore')
 @observer
-export class ChatRenderer extends React.Component<Iprops, {}> {
-    constructor(props: Iprops) {
+export class ChatRenderer extends React.Component<IChatProps, {}> {
+    constructor(props: IChatProps) {
         super(props);
-        this.loadData();
     }
 
-    loadData = async () => {
+    onDelete = (e: React.FormEvent<HTMLButtonElement>, postId: number) => {
         if (this.props.chatStore) {
-            await this.props.chatStore.chat.getAllConversations();
-        } else {
-            throw new ReferenceError('Chat Store not being passed as Property');
+            this.props.chatStore.chat.removeConversation(postId);
         }
     }
 
     render() {
-        const { chatStore } = this.props;       
+        const { chats, activeUserName } = this.props;
         let content;
-        if (chatStore) {
-            content = chatStore.chat.conversations.map(function (element: IConversation, idx: number) {
+        if (chats) {
+            content = chats.map(function (element: IConversation, idx: number) {
                 return (
                     <li key={element.id} className="list-group-item">
                         <div className="row chatRow">
@@ -36,10 +33,16 @@ export class ChatRenderer extends React.Component<Iprops, {}> {
                                     <LikeRenderer
                                         postID={element.id}
                                         likes={element.likes}
-                                        username={chatStore.activeUserName}
+                                        username={activeUserName}
                                     />
                                 </div>
-                                <button type="button" className="btn btn-danger">Delete</button>
+                                <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={this.onDelete}
+                                >
+                                    Delete
+                                </button>
                             </div>
                         </div>
                     </li>

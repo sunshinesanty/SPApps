@@ -5,13 +5,13 @@ import { ChatForm } from './components/chatForm';
 import ChatStore from './Store/chatStore';
 import DevTools from 'mobx-react-devtools';
 import { Provider } from 'mobx-react';
-import { IChatFormState, IConversation } from './interfaces/ChatInterfaces';
+import { IChatFormState, IConversation, Iprops } from './interfaces/ChatInterfaces';
 import { observer, inject } from 'mobx-react';
 const logo = require('./logo.svg');
 
 @inject('chatStore')
 @observer
-class App extends React.Component<any, any> {
+class App extends React.Component<Iprops, any> {
   onSave = ({ username, content }: IChatFormState): void => {
     const conv: IConversation = {
       username,
@@ -25,6 +25,20 @@ class App extends React.Component<any, any> {
       this.props.chatStore.chat.saveConversation(conv);
     }
   }
+  get conversations(): IConversation[] {
+    if (this.props.chatStore) {
+      this.props.chatStore.chat.getAllConversations();
+      return this.props.chatStore.chat.conversations;
+    }
+    return [];
+  }
+
+  get currentUser(): string {
+     if (this.props.chatStore) {
+      return this.props.chatStore.activeUserName;
+    }
+    return '';
+  }
   render() {
     return (
       <Provider chatStore={ChatStore}>
@@ -37,7 +51,7 @@ class App extends React.Component<any, any> {
           </div>
           <DevTools />
           <ChatForm username="" content="" onSave={this.onSave} isDisabled={false} />
-          <ChatRenderer />
+          <ChatRenderer chats={this.conversations} activeUserName={this.currentUser}  />
         </div>
       </Provider>
     );

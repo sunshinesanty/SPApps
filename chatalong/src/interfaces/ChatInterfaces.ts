@@ -16,6 +16,11 @@ export interface Iprops {
     chatStore?: ChatStoreObject;
 }
 
+export interface IChatProps extends Iprops {    
+    chats: IConversation[];
+    activeUserName: string;
+}
+
 export interface IChatFormProps extends Iprops {
     username: string;
     content: string;
