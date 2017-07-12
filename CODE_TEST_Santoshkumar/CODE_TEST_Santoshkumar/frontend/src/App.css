@@ -22,3 +22,28 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+ .Container {
+   margin: auto;
+   padding:10px;
+   font-size: 14px;
+ }
+
+.indicator {
+   width: 0;
+   height: 0;
+   border-left: 20px solid transparent;
+   border-right: 20px solid transparent;
+   border-bottom: 20px solid yellow;
+   position: relative; 
+   top: 4px;
+   left: 16px
+}
+.indexDisplay {
+  position: relative;
+  top: 24px;
+  left: 44px; 
+  z-index: 3;
+  font-size: 11px; 
+  font-weight: bold;
+}

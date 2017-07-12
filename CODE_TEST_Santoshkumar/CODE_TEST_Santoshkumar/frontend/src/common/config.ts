@@ -3,7 +3,7 @@ const config = {
         baseEndPointUrl: 'http://localhost:51406'
     },
     apiEndpoints: {
-        getTriangleType: '/api/StringCompare/CompareString'
+        compareString: '/api/StringCompare/CompareString'
     }
 };
 

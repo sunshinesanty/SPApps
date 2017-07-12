@@ -4,7 +4,7 @@ import { Payload } from '../common/interfaces';
 class InputForm extends React.Component<{ onSubmitData: (input: Payload) => void }, Payload> {
     constructor(props: any) {
         super(props);
-        this.state = { SourceString: '', SubString: '' };
+        this.state = { SourceString: 'polly string polly', SubString: 'polly' };
         this.handleInputChange = this.handleInputChange.bind(this);
     }
 
@@ -41,7 +41,7 @@ class InputForm extends React.Component<{ onSubmitData: (input: Payload) => void
                         onChange={this.handleInputChange}
                     />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>Sub String:</label>
                     <input
                         id="SubString"

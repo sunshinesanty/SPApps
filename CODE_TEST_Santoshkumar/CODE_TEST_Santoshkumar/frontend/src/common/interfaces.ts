@@ -5,7 +5,8 @@ export interface Payload {
 
 export interface AppState {
     isLoading: boolean;
-    ResutType: number[];
+    ResutIdx: number[];
+    data: Payload;
 }
 
 export interface CompareRendererProps {
