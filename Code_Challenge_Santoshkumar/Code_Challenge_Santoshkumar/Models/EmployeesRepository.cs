@@ -13,7 +13,7 @@ namespace Code_Challenge_Santoshkumar.Models
         /// <summary>
         /// Initializing a static array of 
         /// </summary>
-        private IList<Employee> EmployeesList = new List<Employee>()
+        public IList<Employee> EmployeesList = new List<Employee>()
         {
             new Employee() { Id = 1, FirstName = "John", LastName= "Smith", ManagerID = 6 },
             new Employee() { Id = 2, FirstName = "Adam", LastName= "Smith", ManagerID = 6 },
