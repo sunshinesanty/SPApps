@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Code_Challenge_Santoshkumar.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="EmployeesReportingErrorMsg" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">You are trying to delete an employee who have other employees reporting to him/her. Please assign reportees to other employee before deleting</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

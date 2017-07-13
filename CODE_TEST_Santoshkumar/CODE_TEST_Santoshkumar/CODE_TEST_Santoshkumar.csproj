@@ -129,6 +129,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="frontend\.gitignore" />
+    <Content Include="frontend\build\favicon.ico" />
+    <Content Include="frontend\build\index.html" />
+    <Content Include="frontend\build\service-worker.js" />
+    <Content Include="frontend\build\static\css\main.css" />
+    <Content Include="frontend\build\static\js\main.js" />
     <Content Include="frontend\public\favicon.ico" />
     <Content Include="frontend\public\index.html" />
     <Content Include="frontend\src\App.css" />
@@ -162,6 +167,10 @@
     <Content Include="frontend\tslint.json" />
     <Content Include="manifest.json" />
     <Content Include="PreBuild.bat" />
+    <Content Include="frontend\build\asset-manifest.json" />
+    <Content Include="frontend\build\manifest.json" />
+    <Content Include="frontend\build\static\css\main.css.map" />
+    <Content Include="frontend\build\static\js\main.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

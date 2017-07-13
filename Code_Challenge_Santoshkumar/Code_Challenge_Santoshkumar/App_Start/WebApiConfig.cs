@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -18,11 +19,14 @@ namespace Code_Challenge_Santoshkumar
         {
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
             string allowedOrgs = WebApiConfig.GetAllowedOrigins();
             if (!string.IsNullOrWhiteSpace(allowedOrgs))
             {
                 var cors = new EnableCorsAttribute(
-                   allowedOrgs, "*", "POST,GET,PUT,PATCH,DELTE");
+                   allowedOrgs, "*", "POST,GET,PUT,PATCH,DELETE");
                 cors.ExposedHeaders.Add("Content");
                 cors.ExposedHeaders.Add("Origin");
                 config.EnableCors(cors);
@@ -30,7 +34,7 @@ namespace Code_Challenge_Santoshkumar
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }
