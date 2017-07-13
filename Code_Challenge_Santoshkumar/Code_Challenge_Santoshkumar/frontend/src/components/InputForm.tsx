@@ -6,6 +6,7 @@ export interface InputFormProperties {
     employees: IEmployee[];
     onSubmitData: (input: IEmployee) => void;
     onDeleteData: (idToDelete: number, alternativeManagerID?: number) => void;
+    onReset: () => void;
     employeeToHandle?: IEmployee;
 }
 
@@ -25,6 +26,8 @@ class InputForm extends React.Component<InputFormProperties, IEmployee> {
         if (nextProps.employeeToHandle && this.state.id !== nextProps.employeeToHandle.id) {
             const { id, firstName, lastName, managerID } = nextProps.employeeToHandle;
             this.setState({ id, firstName, lastName, managerID });
+        } else if (!nextProps.employeeToHandle) {
+            this.setState({ id: 0, firstName: '', lastName: '', managerID: undefined });
         }
     }
 
@@ -44,6 +47,7 @@ class InputForm extends React.Component<InputFormProperties, IEmployee> {
     onSubmit = (e: any) => {
         e.preventDefault();
         this.props.onSubmitData(this.state);
+        this.props.onReset();
     }
 
     onDelete = (e: any) => {
@@ -57,11 +61,12 @@ class InputForm extends React.Component<InputFormProperties, IEmployee> {
                 this.props.onDeleteData(this.state.id);
             }
         }
+        this.props.onReset();
     }
 
     onReset = (e: any) => {
         e.preventDefault();
-        this.setState({ id: 0, firstName: '', lastName: '', managerID: undefined });
+        this.props.onReset();
     }
 
     setEmployeeManager = (managerID?: number): void => {
@@ -108,6 +113,7 @@ class InputForm extends React.Component<InputFormProperties, IEmployee> {
                     employees={this.props.employees}
                     setEmployeeManager={this.setEmployeeManager}
                     managerid={this.state.managerID}
+                    showManagerMessage={!this.state.id}
                 />
                 <button type="submit" className="btn btn-default" onClick={this.onSubmit}>Submit</button>
                 {

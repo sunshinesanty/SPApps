@@ -66,6 +66,10 @@ class App extends React.Component<{}, { employeeOrgData: IOrgChartData[]; employ
     }
   }
 
+  resetFormData = () => {
+    this.setState({ employeeToHandle: undefined });
+  }
+
   onEmployeeSelected = (employeeSelected: IEmployee) => {
     this.setState({ employeeToHandle: employeeSelected });
   }
@@ -83,6 +87,7 @@ class App extends React.Component<{}, { employeeOrgData: IOrgChartData[]; employ
               employeeToHandle={this.state.employeeToHandle}
               onSubmitData={this.onDataSubmited}
               onDeleteData={this.onDataDeleted}
+              onReset={this.resetFormData}
             />
           </div>
           <div className="col-sm-8 col-xs-12">
