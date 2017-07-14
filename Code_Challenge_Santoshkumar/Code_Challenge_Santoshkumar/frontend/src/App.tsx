@@ -5,6 +5,10 @@ import InputForm from './components/InputForm';
 import OrgChart from './components/OrgChart';
 import FetchData, { httpMethod } from './api/fetchData';
 import config from './common/config';
+var ToastContainer = require('react-toastify').ToastContainer;
+var toast = require('react-toastify').toast;
+import 'react-toastify/dist/ReactToastify.min.css';
+import Notify, { SuccessNotifyOptions, ErrorNotifyOptions } from './common/notify';
 
 class App extends React.Component<{}, { employeeOrgData: IOrgChartData[]; employeeToHandle?: IEmployee; }> {
   Employees: IEmployee[] = [];
@@ -16,11 +20,21 @@ class App extends React.Component<{}, { employeeOrgData: IOrgChartData[]; employ
   }
 
   onDataSubmited = async (employee: IEmployee) => {
-    let OrgChartData;
+    let OrgChartData: IOrgChartData[] = [];
     if (employee && employee.id > 0) {
-      OrgChartData = await FetchData.postData(config.apiEndpoints.UpdateEmployees, employee, httpMethod.PUT);
+      try {
+        OrgChartData = await FetchData.postData(config.apiEndpoints.UpdateEmployees, employee, httpMethod.PUT);
+        toast(<Notify message="Employee data updated" />, SuccessNotifyOptions);
+      } catch (e) {
+        toast(<Notify message={`Failed to update Employee. ${e.message}`} />, ErrorNotifyOptions);
+      }
     } else {
-      OrgChartData = await FetchData.postData(config.apiEndpoints.AddEmployees, employee, httpMethod.POST);
+      try {
+        OrgChartData = await FetchData.postData(config.apiEndpoints.AddEmployees, employee, httpMethod.POST);
+        toast(<Notify message="New Employee added" />, SuccessNotifyOptions);
+      } catch (e) {
+        toast(<Notify message={`Failed to add Employee. ${e.message}`} />, ErrorNotifyOptions);
+      }
     }
     this.Employees = [];
     this.getEmployeeDataOnly(OrgChartData);
@@ -30,22 +44,31 @@ class App extends React.Component<{}, { employeeOrgData: IOrgChartData[]; employ
   onDataDeleted = async (idToDelete: number, alternativeManagerID?: number) => {
     let OrgChartData;
     if (idToDelete > 0) {
-      const deletePayload: IDeletePayload = { id: idToDelete, alertnativeManagerId: alternativeManagerID };
-      OrgChartData = await FetchData.postData(config.apiEndpoints.DeleteEmployee, deletePayload, httpMethod.DELETE);
-      this.Employees = [];
-      this.getEmployeeDataOnly(OrgChartData);
-      this.setState({ employeeOrgData: OrgChartData });
+      try {
+        const deletePayload: IDeletePayload = { id: idToDelete, alertnativeManagerId: alternativeManagerID };
+        OrgChartData = await FetchData.postData(config.apiEndpoints.DeleteEmployee, deletePayload, httpMethod.DELETE);
+        toast(<Notify message="Emloyee Deleted successfully" />, SuccessNotifyOptions);
+        this.Employees = [];
+        this.getEmployeeDataOnly(OrgChartData);
+        this.setState({ employeeOrgData: OrgChartData });
+      } catch (e) {
+        toast(<Notify message={`Error deleting data. ${e.message}`} />, ErrorNotifyOptions);
+      }
     } else {
-      alert('Invalid employee to delete');
+      toast(<Notify message="Invalid data, ID is missing" />, ErrorNotifyOptions);
     }
 
   }
 
   getEmployeeOrgChart = async () => {
-    const OrgChartData = await FetchData.getEmployeeHierarchy(config.apiEndpoints.GetEmployeesByHeirarchy);
-    this.Employees = [];
-    this.getEmployeeDataOnly(OrgChartData);
-    this.setState({ employeeOrgData: OrgChartData });
+    try {
+      const OrgChartData = await FetchData.getEmployeeHierarchy(config.apiEndpoints.GetEmployeesByHeirarchy);
+      this.Employees = [];
+      this.getEmployeeDataOnly(OrgChartData);
+      this.setState({ employeeOrgData: OrgChartData });
+    } catch (e) {
+      toast(<Notify message="Unable to get Employee data from Server, please try again later" />, ErrorNotifyOptions);
+    }
   }
 
   getEmployeeDataOnly = (OrgChartData: IOrgChartData[]) => {
@@ -89,6 +112,7 @@ class App extends React.Component<{}, { employeeOrgData: IOrgChartData[]; employ
               onDeleteData={this.onDataDeleted}
               onReset={this.resetFormData}
             />
+            <ToastContainer autoClose={6000} position={toast.POSITION.TOP_LEFT} />
           </div>
           <div className="col-sm-8 col-xs-12">
             <OrgChart orgChartdata={this.state.employeeOrgData} onEmployeeSelected={this.onEmployeeSelected} />

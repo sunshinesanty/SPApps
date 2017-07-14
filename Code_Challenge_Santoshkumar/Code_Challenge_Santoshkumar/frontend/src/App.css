@@ -23,6 +23,10 @@
   to { transform: rotate(360deg); }
 }
 
+.errorBorder {
+	border: 1px solid #ff0000;
+}
+
 .tree {
 	    width: auto;
 	    margin-left: auto;

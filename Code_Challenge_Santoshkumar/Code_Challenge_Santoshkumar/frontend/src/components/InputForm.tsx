@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { IEmployee } from '../common/interfaces';
 import ManagerDropDown from './ManagerDropdown';
+var toast = require('react-toastify').toast;
+import Notify, { ErrorNotifyOptions } from '../common/notify';
 
 export interface InputFormProperties {
     employees: IEmployee[];
@@ -8,6 +10,12 @@ export interface InputFormProperties {
     onDeleteData: (idToDelete: number, alternativeManagerID?: number) => void;
     onReset: () => void;
     employeeToHandle?: IEmployee;
+}
+
+export enum ActionPreformed {
+    ADD,
+    UPDATE,
+    DELETE
 }
 
 class InputForm extends React.Component<InputFormProperties, IEmployee> {
@@ -38,20 +46,45 @@ class InputForm extends React.Component<InputFormProperties, IEmployee> {
         this.setState({ [name]: value });
 
         if (!value) {
-            event.target.style.border = '1px solid #ff0000';
+            event.target.className = 'form-control errorBorder';
         } else {
-            event.target.style.border = '';
+            event.target.className = 'form-control';
+        }
+    }
+
+    validateInputs = (action: ActionPreformed = ActionPreformed.ADD): boolean => {
+        if (!this.state.firstName && !this.state.lastName) {
+            return false;
+        }
+        switch (action) {
+            case ActionPreformed.DELETE:
+                if (!this.state.id) {
+                    return false;
+                } else { return true; }
+            case ActionPreformed.UPDATE:
+                if (!this.state.id) {
+                    return false;
+                } else { return true; }
+            default:
+                return true;
         }
     }
 
     onSubmit = (e: any) => {
         e.preventDefault();
-        this.props.onSubmitData(this.state);
-        this.props.onReset();
+        if (this.validateInputs(this.state.id > 0 ? ActionPreformed.UPDATE : ActionPreformed.ADD)) {
+            this.props.onSubmitData(this.state);
+            this.props.onReset();
+        } else {
+            toast(<Notify message={`Invaida data provided`} />);
+        }
     }
 
     onDelete = (e: any) => {
         e.preventDefault();
+        if (!this.validateInputs(ActionPreformed.DELETE)) {
+            toast(<Notify message={`Invaida data provided`} />, ErrorNotifyOptions);
+        }
         if (this.state.managerID && this.state.managerID > 0 &&
             confirm('Manager selected for this employee, will be the new manager for reportees')) {
             this.props.onDeleteData(this.state.id, this.state.managerID);
