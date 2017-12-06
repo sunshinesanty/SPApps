@@ -1,8 +1,10 @@
 import * as React from 'react';
 import './App.css';
+import { SliderData } from './interfaces';
+import Slider from './slider';
 
 const logo = require('./logo.svg');
-
+const data: SliderData[] = [];
 class App extends React.Component<{}, null> {
   render() {
     return (
@@ -12,7 +14,7 @@ class App extends React.Component<{}, null> {
           <h2>Welcome to React</h2>
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
+          <Slider data={data} />
         </p>
       </div>
     );

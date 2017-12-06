@@ -1,20 +1,20 @@
 {
   "name": "chatalong",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "dependencies": {
     "@types/immutable": "^3.8.7",
-    "@types/mongodb": "^2.1.41",
     "@types/node": "^7.0.12",
     "@types/react": "^15.0.20",
     "@types/react-dom": "^0.14.23",
     "cachefactory": "^3.0.0",
     "immutable": "^3.8.1",
-    "mobx": "^3.1.9",
-    "mobx-react": "^4.1.8",
+    "mobx": "^3.2.2",
+    "mobx-react": "^4.2.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
   },
+  "homepage": "http://sunshinesanty.github.io/chatalong",
   "devDependencies": {
     "mobx-react-devtools": "^4.2.11",
     "react-scripts-ts": "1.1.8"
@@ -23,6 +23,8 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }
